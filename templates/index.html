@@ -56,7 +56,14 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Critical for mobile */
+            width: 100%;
+        }
+
+        /* Prevent large images from causing horizontal scroll */
+        img {
+            max-width: 100%;
+            height: auto;
         }
 
         /* --- NAVBAR --- */
@@ -77,7 +84,7 @@
         .nav-link {
             font-weight: 500;
             color: var(--text-muted) !important;
-            margin: 0 10px;
+            margin: 0 5px;
             font-size: 0.9rem;
             transition: color 0.2s;
         }
@@ -85,7 +92,7 @@
             color: var(--accent-color) !important;
         }
         
-        /* Dark Mode Toggle Button */
+        /* Theme Toggle */
         .theme-toggle {
             background: transparent;
             border: 1px solid var(--border-color);
@@ -99,10 +106,6 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .theme-toggle:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
 
         /* --- HERO --- */
         .hero-section {
@@ -114,6 +117,7 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 4rem;
+            width: 100%;
         }
         .hero-overlay {
             position: absolute;
@@ -124,29 +128,33 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            max-width: 900px;
-            padding: 0 20px;
+            max-width: 100%;
+            padding: 0 15px;
             width: 100%;
+            box-sizing: border-box;
         }
         .hero-title {
             font-family: 'Playfair Display', serif;
-            /* IMPROVED: Slightly smaller min value (1.8rem) and overflow-wrap for total mobile safety */
+            /* FIXED: Aggressive clamp and word breaking for mobile safety */
             font-size: clamp(1.8rem, 8vw, 4rem); 
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #ffffff; /* Always white on image */
+            color: #ffffff;
             text-shadow: 0 10px 30px rgba(0,0,0,0.5);
             animation: fadeUp 1s ease-out;
             line-height: 1.1;
             word-wrap: break-word;
-            overflow-wrap: anywhere;
+            overflow-wrap: break-word;
+            word-break: break-word; /* Forces break on long words like Entertainment */
+            max-width: 100%;
         }
         .hero-subtitle {
-            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            font-size: clamp(0.85rem, 3vw, 1.1rem);
             color: rgba(255,255,255,0.9);
             font-weight: 300;
             letter-spacing: 0.5px;
             animation: fadeUp 1.2s ease-out;
+            max-width: 100%;
         }
 
         @keyframes fadeUp {
@@ -159,9 +167,10 @@
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            overflow: hidden;
+            overflow: hidden; /* Prevents zoom-transform from sliding outside card */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             height: 100%;
+            width: 100%;
         }
         .news-card:hover {
             transform: translateY(-5px);
@@ -179,55 +188,18 @@
             object-fit: cover;
             transition: transform 0.6s ease;
         }
-        .news-card:hover .card-img-top {
-            transform: scale(1.05);
-        }
-        .card-body {
-            padding: 1.5rem;
-        }
-        .category-tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-color);
-            background: var(--tag-bg);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 12px;
-        }
-        .card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 10px;
-            color: var(--text-color);
-        }
-        .card-text {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        .read-more-link {
-            color: var(--text-color);
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 0.9rem;
-            border-bottom: 1px solid var(--accent-color);
-            padding-bottom: 2px;
-            transition: all 0.2s;
-        }
-        .read-more-link:hover {
-            color: var(--accent-color);
-        }
 
         /* --- TEAM SECTION --- */
         .team-section {
             background-color: var(--team-bg);
-            padding: 6rem 0;
+            padding: 4rem 0;
             border-top: 1px solid var(--border-color);
+        }
+        /* Mobile adjustment for gutters */
+        @media (max-width: 768px) {
+            .team-section .row.g-5 {
+                --bs-gutter-x: 1.5rem !important; /* Reduce large gutter on mobile */
+            }
         }
         .team-category-title {
             font-size: 0.8rem;
@@ -236,23 +208,22 @@
             color: var(--accent-color);
             font-weight: 700;
             margin-bottom: 1.5rem;
-            opacity: 0.8;
         }
         .team-list {
             list-style: none;
             padding: 0;
         }
         .team-list li {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             margin-bottom: 0.8rem;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
         }
         .team-list li strong {
             color: var(--text-color);
             margin-right: 8px;
-            font-weight: 500;
+            white-space: nowrap;
         }
 
         /* --- GENERATOR SECTION --- */
@@ -260,13 +231,11 @@
             background: var(--newsletter-bg);
             color: var(--newsletter-text);
             border-radius: 20px;
-            padding: 5rem 2rem;
-            margin-top: 4rem;
+            padding: 4rem 1.5rem;
+            margin-top: 2rem;
             margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
             text-align: center;
+            width: 100%;
         }
         .btn-premium {
             background-color: var(--accent-color);
@@ -279,20 +248,12 @@
         }
         .btn-premium:hover {
             background-color: var(--accent-hover);
-            transform: translateY(-2px);
         }
         .form-control-dark {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             color: white;
             border-radius: 8px;
-        }
-        .form-control-dark::placeholder { color: rgba(255,255,255,0.5); }
-        .form-control-dark:focus {
-            background: rgba(255,255,255,0.15);
-            border-color: var(--accent-color);
-            color: white;
-            box-shadow: none;
         }
     </style>
 </head>
@@ -303,8 +264,7 @@
         <div class="container">
             <a class="navbar-brand" href="/">Group 7.</a>
             
-            <div class="d-flex align-items-center order-lg-3 ms-3">
-                <!-- Dark Mode Toggle -->
+            <div class="d-flex align-items-center order-lg-3 ms-auto ms-lg-3">
                 <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -323,13 +283,12 @@
                     <a class="nav-link" href="/category/health">Health</a>
                     <a class="nav-link" href="/category/entertainment">Culture</a>
                     <a class="nav-link" href="#team">Team</a>
-                    <a class="btn btn-sm btn-premium ms-3 d-none d-lg-block" href="#generate">My Briefing</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION DATA -->
+    <!-- HERO SECTION -->
     {% set bg_image = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80" %}
     {% set subtitle = "Intelligence for the modern world." %}
     
@@ -366,26 +325,21 @@
         <div class="row g-4">
             {% for article in news %}
             <div class="col-md-4">
-                <div class="news-card d-flex flex-column">
+                <div class="news-card">
                     <div class="card-img-wrapper">
                         {% if article.urlToImage %}
-                        <img src="{{ article.urlToImage }}" class="card-img-top" alt="News Image">
+                        <img src="{{ article.urlToImage }}" class="card-img-top" alt="News Image" onerror="this.src='https://via.placeholder.com/400x220?text=News+Image'">
                         {% else %}
                         <div class="d-flex h-100 align-items-center justify-content-center bg-light text-muted">
-                            <span style="font-family: 'Playfair Display'; font-style: italic;">No Image</span>
+                            <span style="font-family: 'Playfair Display';">No Image</span>
                         </div>
                         {% endif %}
                     </div>
-                    
-                    <div class="card-body d-flex flex-column flex-grow-1">
-                        <div>
-                            <span class="category-tag">{{ article.source.name }}</span>
-                            <h5 class="card-title">{{ article.title }}</h5>
-                            <p class="card-text">
-                                {{ article.description[:100] if article.description else "Click to read the full story on the original source..." }}...
-                            </p>
-                        </div>
-                        <div class="mt-auto pt-3">
+                    <div class="card-body">
+                        <span class="category-tag">{{ article.source.name }}</span>
+                        <h5 class="card-title">{{ article.title }}</h5>
+                        <p class="card-text">{{ article.description[:100] if article.description else "Click below to read the full story on the original source..." }}...</p>
+                        <div class="pt-3">
                             <a href="{{ article.url }}" target="_blank" class="read-more-link">Read Full Story</a>
                         </div>
                     </div>
@@ -396,136 +350,95 @@
     </div>
     
     <!-- TEAM SECTION -->
-    <div id="team" class="team-section">
+    <div id="team" class="team-section mt-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--text-color);">The Development Team</h2>
-                <p style="color: var(--text-muted);">CIS 405 Group 7 • 33 Members • Agile Methodology</p>
+                <h2 style="font-family: 'Playfair Display';">The Development Team</h2>
+                <p class="text-muted small">CIS 405 Group 7 • Agile Implementation</p>
             </div>
-
             <div class="row g-5">
                 <div class="col-md-4">
-                    <h5 class="team-category-title">Core Engineering & Architecture</h5>
+                    <h5 class="team-category-title">Engineering</h5>
                     <ul class="team-list">
-                        <li><strong>Reg. No. 210</strong> - Lead Software Engineer (Project Lead)</li>
-                        <li><strong>Reg. No. 195</strong> - Backend Assistant (API Integration)</li>
-                        <li><strong>Reg. No. 224</strong> - Frontend Assistant (UI Implementation)</li>
-                        <li><strong>Reg. No. 201</strong> - Database Analyst (SQLite Schema)</li>
-                        <li><strong>Reg. No. 218</strong> - Systems Architect</li>
+                        <li><strong>Reg. No. 210</strong> (Lead)</li>
+                        <li><strong>Reg. No. 195</strong> (Backend)</li>
+                        <li><strong>Reg. No. 224</strong> (Frontend)</li>
+                        <li><strong>Reg. No. 201</strong> (Database)</li>
+                        <li><strong>Reg. No. 218</strong> (Architect)</li>
                     </ul>
                 </div>
-
                 <div class="col-md-4">
-                    <h5 class="team-category-title">Quality Assurance & Design</h5>
+                    <h5 class="team-category-title">Quality & Design</h5>
                     <ul class="team-list">
-                        <li><strong>Reg. No. 208</strong> - UI/UX Lead (Design System)</li>
-                        <li><strong>Reg. No. 219</strong> - QA Lead (Functionality Testing)</li>
-                        <li><strong>Reg. No. 202</strong> - Tester (Subscription Module)</li>
-                        <li><strong>Reg. No. 193</strong> - Tester (Cross-Browser Compatibility)</li>
-                        <li><strong>Reg. No. 212</strong> - User Interface Designer</li>
-                        <li><strong>Reg. No. 215</strong> - Security Analyst (Input Validation)</li>
-                        <li><strong>Reg. No. 196</strong> - Accessibility Auditor</li>
+                        <li><strong>Reg. No. 208</strong> (UI/UX)</li>
+                        <li><strong>Reg. No. 219</strong> (QA)</li>
+                        <li><strong>Reg. No. 202</strong> (Testing)</li>
+                        <li><strong>Reg. No. 212</strong> (Visuals)</li>
+                        <li><strong>Reg. No. 196</strong> (Audit)</li>
                     </ul>
                 </div>
-
                 <div class="col-md-4">
-                    <h5 class="team-category-title">Research & Documentation</h5>
+                    <h5 class="team-category-title">Research</h5>
                     <ul class="team-list">
-                        <li><strong>Reg. No. 209</strong> - Lead Technical Writer</li>
-                        <li><strong>Reg. No. 222</strong> - Research Lead (News APIs)</li>
-                        <li><strong>Reg. No. 203</strong> - Documentation (System Design)</li>
-                        <li><strong>Reg. No. 216</strong> - Documentation (Methodology)</li>
-                        <li><strong>Reg. No. 211</strong> - Documentation (Future Scope)</li>
-                        <li><strong>Reg. No. 194, 197, 198</strong> - Content Strategy</li>
-                        <li><strong>Reg. No. 199, 200, 204</strong> - Market Research</li>
-                        <li><strong>Reg. No. 206, 207, 213</strong> - Project Compliance</li>
-                        <li><strong>Reg. No. 214, 217, 220</strong> - Support Team</li>
-                        <li><strong>Reg. No. 221, 223, 225</strong> - Final Report Editors</li>
+                        <li><strong>Reg. No. 209</strong> (Tech Writer)</li>
+                        <li><strong>Reg. No. 222</strong> (Lead Researcher)</li>
+                        <li><strong>Reg. No. 203</strong> (System Design)</li>
+                        <li><strong>Reg. No. 216</strong> (Methodology)</li>
+                        <li><strong>Reg. No. 211</strong> (Future Scope)</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SUMMARY GENERATOR -->
+    <!-- GENERATOR -->
     <div class="container" id="generate">
         <div class="generator-container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <h3 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 1rem;">Personalized Briefing</h3>
-                    <p class="mb-5" style="opacity: 0.8;">Select your interests and generate a custom news summary instantly.</p>
-                    
-                    <form action="/generate-summary" method="POST" class="text-start">
-                        <div class="mb-4">
-                            <label class="small fw-bold text-white-50">YOUR NAME (FOR THE REPORT)</label>
-                            <input type="text" name="name" class="form-control form-control-dark py-3" placeholder="e.g. Alex" required>
-                        </div>
-
-                        <label class="d-block small fw-bold mb-3 text-center text-white-50">SELECT TOPICS FOR SUMMARY (MAX 3)</label>
-                        <div class="row justify-content-center g-3 mb-5">
-                            {% for cat in ['Business', 'Technology', 'Sports', 'Science', 'Health', 'Entertainment'] %}
-                            <div class="col-auto">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="categories" value="{{ cat|lower }}" id="chk_{{ cat }}">
-                                    <label class="form-check-label small text-white" for="chk_{{ cat }}">{{ cat }}</label>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-premium px-5">Generate My Summary</button>
-                        </div>
-                    </form>
+            <h3 style="font-family: 'Playfair Display';">Briefing Generator</h3>
+            <p class="mb-4 small">Generate your personalized intelligence report.</p>
+            <form action="/generate-summary" method="POST" class="text-start mx-auto" style="max-width: 500px;">
+                <div class="mb-4">
+                    <input type="text" name="name" class="form-control form-control-dark py-3" placeholder="Enter your name" required>
                 </div>
-            </div>
+                <div class="row g-2 mb-4">
+                    {% for cat in ['Business', 'Technology', 'Sports', 'Science', 'Health', 'Entertainment'] %}
+                    <div class="col-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="categories" value="{{ cat|lower }}" id="c_{{ cat }}">
+                            <label class="form-check-label small text-white" for="c_{{ cat }}">{{ cat }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-premium px-5">Generate Summary</button>
+                </div>
+            </form>
         </div>
-        
-        <footer class="text-center pb-5 text-muted small">
-            &copy; 2025 Group 7 News Platform. All rights reserved.
-        </footer>
+        <footer class="text-center pb-5 text-muted small">&copy; 2025 Group 7 Platform.</footer>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        // --- 1. DARK MODE LOGIC ---
         const toggleBtn = document.getElementById('themeToggle');
         const icon = toggleBtn.querySelector('i');
         const body = document.body;
 
-        const currentTheme = localStorage.getItem('theme');
-        if (currentTheme === 'dark') {
+        if (localStorage.getItem('theme') === 'dark') {
             body.setAttribute('data-theme', 'dark');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
+            icon.classList.replace('fa-moon', 'fa-sun');
         }
 
         toggleBtn.addEventListener('click', () => {
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+                icon.classList.replace('fa-sun', 'fa-moon');
             } else {
                 body.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
+                icon.classList.replace('fa-moon', 'fa-sun');
             }
-        });
-
-        // --- 2. FORM CHECKBOX LIMITER ---
-        const checks = document.querySelectorAll('.form-check-input');
-        const max = 3;
-        checks.forEach(check => {
-            check.addEventListener('click', function() {
-                const checkedCount = document.querySelectorAll(".form-check-input:checked").length;
-                if (checkedCount > max) {
-                    this.checked = false;
-                }
-            });
         });
     </script>
 </body>
