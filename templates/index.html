@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group 7 | Global Intelligence</title>
+    <title>Group 7 | Global Intelligence Hub</title>
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,11 +16,11 @@
 
     <style>
         :root {
-            /* --- LUXURY LIGHT THEME --- */
+            /* --- LIGHT THEME --- */
             --bg-color: #f8fafc;
             --text-color: #0f172a;
             --text-muted: #475569;
-            --navbar-bg: rgba(255, 255, 255, 0.8);
+            --navbar-bg: rgba(255, 255, 255, 0.85);
             --card-bg: #ffffff;
             --card-shadow: rgba(8, 145, 178, 0.1);
             --accent-color: #0891b2;
@@ -31,11 +31,11 @@
         }
 
         [data-theme="dark"] {
-            /* --- DEEP NIGHT THEME --- */
+            /* --- DARK THEME --- */
             --bg-color: #020617;
             --text-color: #f1f5f9;
             --text-muted: #94a3b8;
-            --navbar-bg: rgba(2, 6, 23, 0.8);
+            --navbar-bg: rgba(2, 6, 23, 0.85);
             --card-bg: #0f172a;
             --card-shadow: rgba(34, 211, 238, 0.15);
             --accent-color: #22d3ee;
@@ -46,11 +46,9 @@
         }
 
         html, body {
-            overflow-x: hidden; /* Force-stop the sliding issue */
+            overflow-x: hidden;
             width: 100%;
-            position: relative;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             scroll-behavior: smooth;
         }
 
@@ -58,18 +56,39 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
         }
 
-        /* --- GLOBAL ANIMATIONS --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+        /* --- SEARCH UI --- */
+        .search-container {
+            position: relative;
+            max-width: 300px;
+            margin-right: 15px;
         }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .search-input {
+            background: rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px 20px 8px 40px;
+            font-size: 0.85rem;
+            width: 100%;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+        [data-theme="dark"] .search-input { background: rgba(255,255,255,0.05); }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: var(--card-bg);
+            box-shadow: 0 0 0 3px var(--card-shadow);
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.8rem;
         }
 
         /* --- NAVBAR --- */
@@ -78,28 +97,22 @@
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--glass-border);
-            padding: 1rem 0;
-            transition: all 0.3s ease;
+            padding: 0.8rem 0;
+            z-index: 1000;
         }
         .navbar-brand {
             font-family: 'Playfair Display', serif;
-            font-weight: 900;
-            font-size: 1.6rem;
+            font-weight: 900; font-size: 1.6rem;
             background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text; /* Added standard property for compatibility */
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -1px;
         }
         .nav-link {
-            font-weight: 600;
+            font-weight: 600; font-size: 0.75rem;
+            text-transform: uppercase; letter-spacing: 1px;
             color: var(--text-color) !important;
-            margin: 0 8px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.7;
-            transition: all 0.3s;
+            opacity: 0.7; transition: 0.3s;
         }
         .nav-link:hover { opacity: 1; color: var(--accent-color) !important; }
 
@@ -108,143 +121,67 @@
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            width: 40px; height: 40px; border-radius: 12px;
+            width: 38px; height: 38px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.3s;
-            box-shadow: 0 4px 12px var(--card-shadow);
+            cursor: pointer; transition: 0.3s;
         }
 
         /* --- HERO --- */
         .hero-section {
-            height: 60vh;
+            height: 50vh;
             position: relative;
-            background-size: cover;
-            background-position: center;
+            background-size: cover; background-position: center;
             display: flex; align-items: center; justify-content: center;
-            width: 100%;
-            overflow: hidden;
+            width: 100%; overflow: hidden;
         }
-        .hero-overlay {
-            position: absolute; inset: 0;
-            background: var(--hero-gradient);
-        }
-        .hero-content {
-            position: relative; z-index: 2; text-align: center;
-            padding: 0 15px; width: 100%;
-            box-sizing: border-box;
-        }
+        .hero-overlay { position: absolute; inset: 0; background: var(--hero-gradient); }
+        .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 15px; width: 100%; }
         .hero-title {
             font-family: 'Playfair Display', serif;
-            /* SAFE TYPOGRAPHY: Scale down further on small screens */
-            font-size: clamp(1.8rem, 8vw, 4.5rem); 
-            font-weight: 900;
-            margin-bottom: 1rem;
-            color: #ffffff;
+            font-size: clamp(2rem, 8vw, 4.5rem); 
+            font-weight: 900; color: #ffffff;
             text-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            letter-spacing: -1px;
-            /* TOTAL SAFETY: Force words to stay inside screen */
-            overflow-wrap: anywhere;
-            word-break: normal;
-        }
-        .hero-subtitle {
-            font-size: clamp(0.8rem, 2.5vw, 1.2rem);
-            color: rgba(255,255,255,0.9);
-            font-weight: 400;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            letter-spacing: -1px; overflow-wrap: anywhere;
         }
 
-        /* --- NEWS CARDS --- */
+        /* --- CARDS --- */
         .news-card {
             background-color: var(--card-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s;
-            height: 100%;
+            border-radius: 20px; overflow: hidden;
+            transition: all 0.4s; height: 100%;
             box-shadow: 0 10px 30px -10px var(--card-shadow);
         }
-        .news-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px -12px var(--card-shadow);
-        }
-        .card-img-wrapper {
-            height: 220px; overflow: hidden; position: relative;
-        }
-        .card-img-top {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s ease;
-        }
+        .news-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px var(--card-shadow); }
+        .card-img-wrapper { height: 200px; overflow: hidden; }
+        .card-img-top { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
         .news-card:hover .card-img-top { transform: scale(1.08); }
-        
         .card-body { padding: 1.5rem; }
-        .category-tag {
-            font-size: 0.6rem; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 1.2px; color: #fff;
-            background: var(--accent-gradient);
-            padding: 5px 12px; border-radius: 30px;
-            display: inline-block; margin-bottom: 1.2rem;
-        }
-        .card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem; font-weight: 700; line-height: 1.3;
-            margin-bottom: 0.8rem; color: var(--text-color);
-        }
 
-        /* --- TEAM SECTION --- */
-        .team-section { background-color: var(--bg-color); padding: 5rem 0; }
+        /* --- TEAM --- */
         .team-glass-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            height: 100%;
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 1.8rem; height: 100%;
             box-shadow: 0 8px 24px var(--card-shadow);
         }
         .team-category-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem; color: var(--accent-color);
-            margin-bottom: 1.2rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 1px;
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            color: var(--accent-color); font-weight: 700; margin-bottom: 1.2rem;
         }
         .team-list { list-style: none; padding: 0; }
         .team-list li {
-            font-size: 0.85rem; color: var(--text-muted);
-            margin-bottom: 0.8rem; border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.4rem;
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem;
+            border-bottom: 1px solid var(--border-color); padding-bottom: 0.3rem;
         }
-        .team-list li strong { color: var(--text-color); margin-right: 5px; }
+        .team-list li strong { color: var(--text-color); margin-right: 4px; }
 
-        /* --- GENERATOR --- */
-        .generator-wrapper {
-            background: var(--newsletter-bg);
-            color: #fff;
-            border-radius: 30px;
-            padding: 4rem 1.5rem;
-            position: relative; overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            width: 100%;
-            box-sizing: border-box;
-        }
+        /* --- REVEAL ANIM --- */
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.6s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .btn-premium {
-            background: var(--accent-gradient);
-            color: white; border: none;
-            padding: 14px 40px; border-radius: 100px;
-            font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
-            transition: all 0.3s;
-            box-shadow: 0 8px 20px rgba(8, 145, 178, 0.3);
-        }
-        .btn-premium:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(8, 145, 178, 0.5);
-        }
-
-        /* Mobile specific fixes */
-        @media (max-width: 576px) {
-            .navbar-brand { font-size: 1.3rem; }
-            .card-body { padding: 1.2rem; }
-            .team-glass-card { padding: 1.5rem; }
+        /* --- MOBILE --- */
+        @media (max-width: 991px) {
+            .search-container { max-width: 100%; margin: 15px 0; }
         }
     </style>
 </head>
@@ -253,26 +190,29 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">Group 7</a>
+            <a class="navbar-brand" href="/">Group 7.</a>
             
-            <div class="d-flex align-items-center order-lg-3 ms-auto ms-lg-3">
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <button class="navbar-toggler border-0 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon" style="filter: invert(var(--invert-icon));"></span>
-                </button>
-            </div>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars" style="color: var(--text-color);"></i>
+            </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="/">Headlines</a>
+                <form class="search-container ms-lg-auto" action="/search" method="GET">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="q" class="search-input" placeholder="Search global news..." required>
+                </form>
+                
+                <div class="navbar-nav align-items-center">
                     <a class="nav-link" href="/category/business">Business</a>
                     <a class="nav-link" href="/category/technology">Tech</a>
-                    <a class="nav-link" href="/category/sports">Sports</a>
                     <a class="nav-link" href="/category/science">Science</a>
-                    <a class="nav-link" href="/category/health">Health</a>
                     <a class="nav-link" href="/category/entertainment">Culture</a>
+                    <a class="nav-link" href="/about">Project Info</a>
+                    <a class="nav-link" href="/admin"><i class="fas fa-terminal me-1"></i> Logs</a>
+                    
+                    <button class="theme-toggle ms-lg-3" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -280,60 +220,54 @@
 
     <!-- HERO -->
     {% set bg_image = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80" %}
-    {% set subtitle = "Intelligence curated for the modern world." %}
-    
-    {% if "Business" in current_category %}
-        {% set bg_image = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2070&q=80" %}
-        {% set subtitle = "Analyzing global markets and equity." %}
-    {% elif "Technology" in current_category %}
-        {% set bg_image = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2070&q=80" %}
-        {% set subtitle = "Where innovation meets execution." %}
-    {% elif "Sports" in current_category %}
-        {% set bg_image = "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=2070&q=80" %}
-        {% set subtitle = "Athletic milestones and competitive strategy." %}
-    {% elif "Science" in current_category %}
-        {% set bg_image = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2072&q=80" %}
-        {% set subtitle = "Decoding the complex universe." %}
-    {% elif "Health" in current_category %}
-        {% set bg_image = "https://images.unsplash.com/photo-1544367563-12123d896889?auto=format&fit=crop&w=2070&q=80" %}
-        {% set subtitle = "Vital data for human longevity." %}
-    {% elif "Entertainment" in current_category %}
-        {% set bg_image = "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=2070&q=80" %}
-        {% set subtitle = "Cinema, arts, and global aesthetics." %}
+    {% if "Business" in current_category %}{% set bg_image = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600" %}
+    {% elif "Tech" in current_category %}{% set bg_image = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600" %}
+    {% elif "Science" in current_category %}{% set bg_image = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600" %}
+    {% elif "Culture" in current_category %}{% set bg_image = "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1600" %}
     {% endif %}
 
     <header class="hero-section" style="background-image: url('{{ bg_image }}');">
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1 class="hero-title">{{ current_category }}</h1>
-            <p class="hero-subtitle">{{ subtitle }}</p>
+            <p style="text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.8); font-size: 0.8rem;">Synthesized Intelligence Hub</p>
         </div>
     </header>
 
     <!-- NEWS GRID -->
     <div class="container mt-n4 position-relative" style="z-index: 5;">
+        {% if not news %}
+        <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+            <i class="fas fa-search fa-3x mb-3 opacity-25"></i>
+            <h3>No results found</h3>
+            <p class="text-muted">Try a different category or search term.</p>
+        </div>
+        {% endif %}
+
         <div class="row g-4">
             {% for article in news %}
             <div class="col-lg-4 col-md-6 reveal">
                 <div class="news-card">
                     <div class="card-img-wrapper">
                         {% if article.urlToImage %}
-                        <img src="{{ article.urlToImage }}" class="card-img-top" alt="News">
+                        <img src="{{ article.urlToImage }}" class="card-img-top" alt="News" onerror="this.src='https://images.unsplash.com/photo-1585829365234-78d2b98a3150?auto=format&fit=crop&w=800'">
                         {% else %}
                         <div class="d-flex h-100 align-items-center justify-content-center bg-dark text-white-50">
-                            <i class="fas fa-image fa-2x"></i>
+                            <i class="fas fa-newspaper fa-2x"></i>
                         </div>
                         {% endif %}
                     </div>
                     <div class="card-body">
-                        <span class="category-tag">{{ article.source.name }}</span>
-                        <h5 class="card-title">{{ article.title }}</h5>
-                        <p class="card-text small text-muted">{{ article.description[:100] if article.description else "Access the full intelligence report on the original platform..." }}...</p>
-                        <div class="pt-3 border-top mt-3">
-                            <a href="{{ article.url }}" target="_blank" class="text-decoration-none fw-bold small text-uppercase" style="color: var(--accent-color);">
-                                Detailed View <i class="fas fa-arrow-right ms-2"></i>
-                            </a>
-                        </div>
+                        <span style="font-size: 0.6rem; font-weight: 800; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.8rem;">
+                            {{ article.source.name }}
+                        </span>
+                        <h5 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.8rem;">
+                            {{ article.title }}
+                        </h5>
+                        <p class="small text-muted mb-4">{{ article.description[:95] if article.description else "Access the full intelligence briefing on the original source." }}...</p>
+                        <a href="{{ article.url }}" target="_blank" class="text-decoration-none fw-bold small text-uppercase" style="color: var(--accent-color);">
+                            Detailed Report <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -341,74 +275,72 @@
         </div>
     </div>
     
-    <!-- TEAM -->
-    <div id="team" class="team-section reveal">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; font-weight: 900;">The Project Matrix</h2>
-                <p class="text-muted small">CIS 405 Group 7 • 33 Specialized Members • Unified Vision</p>
+    <!-- TEAM MATRIX -->
+    <div id="team" class="container py-5 mt-5">
+        <div class="text-center mb-5 reveal">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900;">The Project Matrix</h2>
+            <p class="text-muted small">CIS 405 Group 7 • 33 Individual Contributors</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-xl-3 col-md-6 reveal">
+                <div class="team-glass-card">
+                    <h5 class="team-category-title">Core & Lead</h5>
+                    <ul class="team-list">
+                        <li><strong>210</strong> Project Lead & Architect</li>
+                        <li><strong>195</strong> API Logic & Backend</li>
+                        <li><strong>201</strong> DB Systems Admin</li>
+                        <li><strong>218</strong> Deployment Engineer</li>
+                        <li><strong>215</strong> Security Validator</li>
+                        <li><strong>217</strong> Code Integrity Lead</li>
+                        <li><strong>213</strong> Ops Support</li>
+                        <li><strong>214</strong> Version Control</li>
+                    </ul>
+                </div>
             </div>
-            <div class="row g-4">
-                <div class="col-xl-3 col-md-6">
-                    <div class="team-glass-card">
-                        <h5 class="team-category-title">Core Engineering</h5>
-                        <ul class="team-list">
-                            <li><strong>210</strong> Project Lead & Lead Architect</li>
-                            <li><strong>195</strong> API Integration Engineer</li>
-                            <li><strong>201</strong> Database Systems Admin</li>
-                            <li><strong>218</strong> Deployment & Cloud Strategist</li>
-                            <li><strong>215</strong> Security & Input Validator</li>
-                            <li><strong>217</strong> Technical Code Reviewer</li>
-                            <li><strong>213</strong> System Monitor & Support</li>
-                            <li><strong>214</strong> Version Control Manager</li>
-                        </ul>
-                    </div>
+            <div class="col-xl-3 col-md-6 reveal">
+                <div class="team-glass-card">
+                    <h5 class="team-category-title">Frontend & UX</h5>
+                    <ul class="team-list">
+                        <li><strong>224</strong> Lead UI Developer</li>
+                        <li><strong>208</strong> Art Director</li>
+                        <li><strong>212</strong> Component Design</li>
+                        <li><strong>196</strong> Accessibility Audit</li>
+                        <li><strong>193</strong> Mobile Response Lead</li>
+                        <li><strong>221</strong> Media Strategy</li>
+                        <li><strong>203</strong> Interaction Logic</li>
+                        <li><strong>204</strong> Site Architecture</li>
+                    </ul>
                 </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="team-glass-card">
-                        <h5 class="team-category-title">Creative & UX</h5>
-                        <ul class="team-list">
-                            <li><strong>224</strong> Primary Frontend Developer</li>
-                            <li><strong>208</strong> UI/UX Art Director</li>
-                            <li><strong>212</strong> Visual Component Designer</li>
-                            <li><strong>196</strong> Accessibility & Compliance</li>
-                            <li><strong>193</strong> Mobile Response Specialist</li>
-                            <li><strong>221</strong> Digital Media Specialist</li>
-                            <li><strong>203</strong> Logic Flow Designer</li>
-                            <li><strong>204</strong> Information Architect</li>
-                        </ul>
-                    </div>
+            </div>
+            <div class="col-xl-3 col-md-6 reveal">
+                <div class="team-glass-card">
+                    <h5 class="team-category-title">Quality Assurance</h5>
+                    <ul class="team-list">
+                        <li><strong>219</strong> QA Manager</li>
+                        <li><strong>202</strong> Functional Testing</li>
+                        <li><strong>194</strong> UX Auditor</li>
+                        <li><strong>197</strong> Performance Analysis</li>
+                        <li><strong>198</strong> Browser Logic QC</li>
+                        <li><strong>205</strong> Protocol Tester</li>
+                        <li><strong>206</strong> Standards Compliance</li>
+                        <li><strong>207</strong> Internal Ops</li>
+                    </ul>
                 </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="team-glass-card">
-                        <h5 class="team-category-title">Quality Assurance</h5>
-                        <ul class="team-list">
-                            <li><strong>219</strong> Quality Assurance Manager</li>
-                            <li><strong>202</strong> Core Functional Tester</li>
-                            <li><strong>194</strong> User Experience Auditor</li>
-                            <li><strong>197</strong> Speed & Latency Tester</li>
-                            <li><strong>198</strong> Browser Compatibility Tester</li>
-                            <li><strong>205</strong> Security Protocol Tester</li>
-                            <li><strong>206</strong> Legal Standards Compliance</li>
-                            <li><strong>207</strong> Internal Ops Coordinator</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="team-glass-card">
-                        <h5 class="team-category-title">Insights & Documentation</h5>
-                        <ul class="team-list">
-                            <li><strong>222</strong> Global News Research Lead</li>
-                            <li><strong>199</strong> Content Intelligence Lead</li>
-                            <li><strong>200</strong> Trend Analysis Specialist</li>
-                            <li><strong>209</strong> Lead Technical Documentation</li>
-                            <li><strong>216</strong> Methodology Analyst</li>
-                            <li><strong>211</strong> Product Vision & Roadmap</li>
-                            <li><strong>220</strong> Final Narrative Editor</li>
-                            <li><strong>223</strong> Citation & Reference Admin</li>
-                            <li><strong>225</strong> Final Submission QC</li>
-                        </ul>
-                    </div>
+            </div>
+            <div class="col-xl-3 col-md-6 reveal">
+                <div class="team-glass-card">
+                    <h5 class="team-category-title">Research & Data</h5>
+                    <ul class="team-list">
+                        <li><strong>222</strong> Global News Research</li>
+                        <li><strong>199</strong> Intelligence Strategy</li>
+                        <li><strong>200</strong> Market Trend Analyst</li>
+                        <li><strong>209</strong> Technical Documentation</li>
+                        <li><strong>216</strong> Methodology Lead</li>
+                        <li><strong>211</strong> Roadmap Strategist</li>
+                        <li><strong>220</strong> Content Editor</li>
+                        <li><strong>223</strong> Data Citations</li>
+                        <li><strong>225</strong> Submission Quality Control</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -416,20 +348,16 @@
 
     <!-- GENERATOR -->
     <div class="container mb-5 reveal" id="generate">
-        <div class="generator-wrapper text-center">
+        <div class="p-5 rounded-5 shadow-lg text-center" style="background: var(--accent-gradient); color: white;">
             <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; font-weight: 900;">Intelligence Briefing</h2>
-            <p class="mb-5 lead opacity-75">Generate a synthesized executive report tailored to your parameters.</p>
+            <p class="mb-5 lead opacity-75">Generate a custom executive report based on your sectors of choice.</p>
             
-            <form action="/generate-summary" method="POST" class="text-start mx-auto" style="max-width: 550px;">
-                <div class="mb-4">
-                    <label class="small fw-bold opacity-50 text-uppercase mb-2 d-block">Executive Identity</label>
-                    <input type="text" name="name" class="form-control form-control-dark py-3 px-4" placeholder="Enter full name..." required>
-                </div>
+            <form action="/generate-summary" method="POST" class="text-start mx-auto" style="max-width: 500px;">
+                <input type="text" name="name" class="form-control bg-white bg-opacity-10 border-white border-opacity-25 text-white mb-4 py-3" placeholder="Executive Name" required>
                 
-                <label class="small fw-bold opacity-50 text-uppercase mb-3 d-block">Sectors for Analysis (Choose 3)</label>
-                <div class="row g-3 mb-5">
-                    {% for cat in ['Business', 'Technology', 'Sports', 'Science', 'Health', 'Entertainment'] %}
-                    <div class="col-6 col-md-4">
+                <div class="row g-2 mb-4">
+                    {% for cat in ['Business', 'Technology', 'Science', 'Entertainment', 'Health', 'Sports'] %}
+                    <div class="col-6">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="categories" value="{{ cat|lower }}" id="c_{{ cat }}">
                             <label class="form-check-label small" for="c_{{ cat }}">{{ cat }}</label>
@@ -437,21 +365,15 @@
                     </div>
                     {% endfor %}
                 </div>
-                
-                <div class="text-center">
-                    <button type="submit" class="btn btn-premium">Synthesize Report</button>
-                </div>
+                <button type="submit" class="btn btn-light w-100 py-3 fw-bold text-uppercase rounded-pill" style="color: var(--accent-color);">Synthesize Report</button>
             </form>
         </div>
     </div>
 
-    <footer class="text-center py-5 opacity-50 small">
-        &copy; 2025 Group 7 News Intelligence. All Rights Reserved.
-    </footer>
+    <footer class="text-center py-5 opacity-50 small">&copy; 2025 Group 7. CIS 405 Software Engineering.</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // --- 1. THEME LOGIC ---
         const toggleBtn = document.getElementById('themeToggle');
         const icon = toggleBtn.querySelector('i');
         const body = document.body;
@@ -473,29 +395,16 @@
             }
         });
 
-        // --- 2. REVEAL ON SCROLL ---
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
+                if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
             }
         }
         window.addEventListener("scroll", reveal);
         window.addEventListener("load", reveal);
-
-        // --- 3. CHECKBOX LIMIT ---
-        const checks = document.querySelectorAll('.form-check-input');
-        checks.forEach(check => {
-            check.addEventListener('click', function() {
-                const checkedCount = document.querySelectorAll(".form-check-input:checked").length;
-                if (checkedCount > 3) this.checked = false;
-            });
-        });
     </script>
 </body>
 </html>
