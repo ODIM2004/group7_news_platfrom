@@ -9,7 +9,6 @@ app.secret_key = "group7_secret_key"
 
 # --- DATABASE CONFIGURATION ---
 # Vercel has a read-only filesystem. We must use /tmp/ for SQLite to work.
-# Note: Data in /tmp/ is temporary and resets when the function goes cold.
 IS_VERCEL = "VERCEL" in os.environ
 DB_PATH = "/tmp/newsletter.db" if IS_VERCEL else "newsletter.db"
 
@@ -17,7 +16,7 @@ def init_db():
     try:
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
-        # We maintain the history table to satisfy Point 7 of the Project Outline (DBMS)
+        # History table for Point 7 of Project Outline
         c.execute('''CREATE TABLE IF NOT EXISTS history 
                      (id INTEGER PRIMARY KEY, 
                       name TEXT, 
@@ -28,28 +27,32 @@ def init_db():
     except Exception as e:
         print(f"Database Initialization Error: {e}")
 
-# Initialize database on startup
 init_db()
 
 # --- NEWS FETCHING ENGINE ---
-def get_news(category):
-    # Live API Key
-    api_key = "ebdafebcdf6d45cd94ba80073deb4f7c" 
+def get_news(category=None, query=None):
+    # SOFTWARE ENGINEERING PRINCIPLE: Using Environment Variables for API Keys
+    api_key = os.environ.get("NEWS_API_KEY", "ebdafebcdf6d45cd94ba80073deb4f7c")
     
-    # Attempt live fetch first
-    url = f"https://newsapi.org/v2/top-headlines?country=us&category={category}&apiKey={api_key}"
+    if query:
+        # Search functionality
+        url = f"https://newsapi.org/v2/everything?q={query}&sortBy=publishedAt&apiKey={api_key}"
+    else:
+        # Category functionality
+        category = category or 'general'
+        url = f"https://newsapi.org/v2/top-headlines?country=us&category={category}&apiKey={api_key}"
+    
     try:
         response = requests.get(url, timeout=5)
         if response.status_code == 200:
             data = response.json()
             articles = data.get('articles', [])
-            # Filter out removed articles
             return [a for a in articles if a.get('title') and "[Removed]" not in a.get('title')]
     except:
         pass
 
-    # Fallback to public mirror if primary API fails or limit is reached
-    fallback_url = f"https://saurav.tech/NewsAPI/top-headlines/category/{category}/us.json"
+    # Fallback mirror (Does not support complex 'everything' search, defaults to general)
+    fallback_url = f"https://saurav.tech/NewsAPI/top-headlines/category/{'general' if query else category}/us.json"
     try:
         response = requests.get(fallback_url, timeout=5)
         data = response.json()
@@ -62,8 +65,16 @@ def get_news(category):
 
 @app.route('/')
 def home():
-    articles = get_news('general')
+    articles = get_news(category='general')
     return render_template('index.html', news=articles, current_category='Top Headlines')
+
+@app.route('/search')
+def search():
+    query = request.args.get('q')
+    if not query:
+        return redirect(url_for('home'))
+    articles = get_news(query=query)
+    return render_template('index.html', news=articles, current_category=f"Search: {query}")
 
 @app.route('/category/<category_name>')
 def category_page(category_name):
@@ -71,10 +82,16 @@ def category_page(category_name):
     if category_name not in allowed:
         return redirect(url_for('home'))
         
-    articles = get_news(category_name)
-    # Mapping 'entertainment' to 'Culture' for the UI display
+    articles = get_news(category=category_name)
     title = category_name.capitalize() if category_name != 'entertainment' else 'Culture'
     return render_template('index.html', news=articles, current_category=title)
+
+# --- PROJECT INFO (ALIGNED TO CIS 405 PDF) ---
+
+@app.route('/about')
+def about():
+    # Direct mapping to Point 2, 4, and 5 of the PDF Outline
+    return render_template('about.html')
 
 # --- GENERATOR LOGIC ---
 
@@ -86,9 +103,7 @@ def generate_summary():
     if not selected_categories:
         selected_categories = ['general']
 
-    # Log interaction to Database (Software Engineering Requirement)
     try:
-        # Ensure DB exists before writing (especially on serverless cold starts)
         init_db()
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
@@ -101,11 +116,10 @@ def generate_summary():
     except Exception as e:
         print(f"Database Log Error: {e}")
 
-    # Prepare briefing data
     summary_data = {}
     for cat in selected_categories:
-        articles = get_news(cat)
-        summary_data[cat.capitalize()] = articles[:3] # Get top 3 per sector
+        articles = get_news(category=cat)
+        summary_data[cat.capitalize()] = articles[:3]
 
     return render_template('summary.html', name=name, summary_data=summary_data, timestamp=timestamp)
 
@@ -122,7 +136,6 @@ def admin_panel():
     except Exception:
         logs = []
     
-    # Styled System Log for Defense Presentation
     html = """
     <div style="font-family: 'Inter', sans-serif; padding: 40px; max-width: 1000px; margin: 0 auto; color: #1e293b;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px;">
