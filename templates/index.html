@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group 7 News Platform</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            /* --- LIGHT THEME (Default) --- */
+            --bg-color: #ffffff;
+            --text-color: #1e293b;       /* Slate 800 */
+            --text-muted: #64748b;       /* Slate 500 */
+            --navbar-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: #ffffff;
+            --card-shadow: rgba(0, 0, 0, 0.08);
+            --accent-color: #0891b2;     /* Cyan 600 - Professional Teal */
+            --accent-hover: #0e7490;
+            --tag-bg: #ecfeff;           /* Cyan 50 */
+            --border-color: #e2e8f0;
+            --newsletter-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --newsletter-text: #ffffff;
+            --team-bg: #f8fafc;          /* Slate 50 */
+        }
+
+        [data-theme="dark"] {
+            /* --- DARK THEME --- */
+            --bg-color: #0f172a;         /* Slate 900 */
+            --text-color: #f1f5f9;       /* Slate 100 */
+            --text-muted: #94a3b8;       /* Slate 400 */
+            --navbar-bg: rgba(15, 23, 42, 0.9);
+            --card-bg: #1e293b;          /* Slate 800 */
+            --card-shadow: rgba(0, 0, 0, 0.3);
+            --accent-color: #22d3ee;     /* Cyan 400 - Electric Teal */
+            --accent-hover: #67e8f9;
+            --tag-bg: rgba(34, 211, 238, 0.1);
+            --border-color: #334155;
+            --newsletter-bg: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+            --newsletter-text: #e2e8f0;
+            --team-bg: #020617;          /* Slate 950 */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--text-color) !important;
+            letter-spacing: -0.5px;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-muted) !important;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-color) !important;
+        }
+        
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .theme-toggle:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* --- HERO --- */
+        .hero-section {
+            height: 55vh;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), var(--bg-color));
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff; /* Always white on image */
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: fadeUp 1s ease-out;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            animation: fadeUp 1.2s ease-out;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- CARDS --- */
+        .news-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px var(--card-shadow);
+            border-color: var(--accent-color);
+        }
+        .card-img-wrapper {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .news-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .category-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            background: var(--tag-bg);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .read-more-link {
+            color: var(--text-color);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 2px;
+            transition: all 0.2s;
+        }
+        .read-more-link:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- TEAM SECTION --- */
+        .team-section {
+            background-color: var(--team-bg);
+            padding: 6rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+        .team-category-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+        .team-list {
+            list-style: none;
+            padding: 0;
+        }
+        .team-list li {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        .team-list li strong {
+            color: var(--text-color);
+            margin-right: 8px;
+            font-weight: 500;
+        }
+
+        /* --- GENERATOR SECTION (Replaces Subscription) --- */
+        .generator-container {
+            background: var(--newsletter-bg);
+            color: var(--newsletter-text);
+            border-radius: 20px;
+            padding: 5rem 2rem;
+            margin-top: 4rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .btn-premium {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s;
+        }
+        .btn-premium:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        .form-control-dark {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 8px;
+        }
+        .form-control-dark::placeholder { color: rgba(255,255,255,0.5); }
+        .form-control-dark:focus {
+            background: rgba(255,255,255,0.15);
+            border-color: var(--accent-color);
+            color: white;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">Group 7.</a>
+            
+            <div class="d-flex align-items-center order-lg-3 ms-3">
+                <!-- Dark Mode Toggle -->
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="navbar-toggler border-0 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon" style="filter: invert(var(--invert-icon));"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto align-items-center">
+                    <a class="nav-link" href="/">Top Stories</a>
+                    <a class="nav-link" href="/category/business">Business</a>
+                    <a class="nav-link" href="/category/technology">Tech</a>
+                    <a class="nav-link" href="/category/sports">Sports</a>
+                    <a class="nav-link" href="/category/science">Science</a>
+                    <a class="nav-link" href="/category/health">Health</a>
+                    <a class="nav-link" href="/category/entertainment">Culture</a>
+                    <a class="nav-link" href="#team">Team</a>
+                    <a class="btn btn-sm btn-premium ms-3 d-none d-lg-block" href="#generate">My Briefing</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    {% set bg_image = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80" %}
+    {% set subtitle = "Intelligence for the modern world." %}
+    
+    {% if "Business" in current_category %}
+        {% set bg_image = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2070&q=80" %}
+        {% set subtitle = "Global markets and economic shifts." %}
+    {% elif "Technology" in current_category %}
+        {% set bg_image = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2070&q=80" %}
+        {% set subtitle = "Innovation engineering the future." %}
+    {% elif "Sports" in current_category %}
+        {% set bg_image = "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=2070&q=80" %}
+        {% set subtitle = "Athletic excellence and competitive spirit." %}
+    {% elif "Science" in current_category %}
+        {% set bg_image = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2072&q=80" %}
+        {% set subtitle = "Expanding the frontiers of knowledge." %}
+    {% elif "Health" in current_category %}
+        {% set bg_image = "https://images.unsplash.com/photo-1544367563-12123d896889?auto=format&fit=crop&w=2070&q=80" %}
+        {% set subtitle = "Vitality, medicine, and wellness." %}
+    {% elif "Entertainment" in current_category %}
+        {% set bg_image = "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=2070&q=80" %}
+        {% set subtitle = "Cinema, music, and cultural trends." %}
+    {% endif %}
+
+    <header class="hero-section" style="background-image: url('{{ bg_image }}');">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">{{ current_category }}</h1>
+            <p class="hero-subtitle">{{ subtitle }}</p>
+        </div>
+    </header>
+
+    <!-- NEWS GRID -->
+    <div class="container">
+        <div class="row g-4">
+            {% for article in news %}
+            <div class="col-md-4">
+                <div class="news-card d-flex flex-column">
+                    <div class="card-img-wrapper">
+                        {% if article.urlToImage %}
+                        <img src="{{ article.urlToImage }}" class="card-img-top" alt="News Image">
+                        {% else %}
+                        <div class="d-flex h-100 align-items-center justify-content-center bg-light text-muted">
+                            <span style="font-family: 'Playfair Display'; font-style: italic;">No Image</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div>
+                            <span class="category-tag">{{ article.source.name }}</span>
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <p class="card-text">
+                                {{ article.description[:100] if article.description else "Click to read the full story on the original source..." }}...
+                            </p>
+                        </div>
+                        <div class="mt-auto pt-3">
+                            <a href="{{ article.url }}" target="_blank" class="read-more-link">Read Full Story</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- TEAM SECTION -->
+    <div id="team" class="team-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--text-color);">The Development Team</h2>
+                <p style="color: var(--text-muted);">CIS 405 Group 7 • 33 Members • Agile Methodology</p>
+            </div>
+
+            <div class="row g-5">
+                <!-- Core Development (The "What we worked on" team) -->
+                <div class="col-md-4">
+                    <h5 class="team-category-title">Core Engineering & Architecture</h5>
+                    <ul class="team-list">
+                        <!-- YOU - The one who built Backend, DB, & Frontend -->
+                        <li><strong>Reg. No. 210</strong> - Lead Software Engineer (Project Lead)</li>
+                        
+                        <!-- Support Roles for the code -->
+                        <li><strong>Reg. No. 195</strong> - Backend Assistant (API Integration)</li>
+                        <li><strong>Reg. No. 224</strong> - Frontend Assistant (UI Implementation)</li>
+                        <li><strong>Reg. No. 201</strong> - Database Analyst (SQLite Schema)</li>
+                        <li><strong>Reg. No. 218</strong> - Systems Architect</li>
+                    </ul>
+                </div>
+
+                <!-- QA & Design (The ones who tested your code) -->
+                <div class="col-md-4">
+                    <h5 class="team-category-title">Quality Assurance & Design</h5>
+                    <ul class="team-list">
+                        <li><strong>Reg. No. 208</strong> - UI/UX Lead (Design System)</li>
+                        <li><strong>Reg. No. 219</strong> - QA Lead (Functionality Testing)</li>
+                        <li><strong>Reg. No. 202</strong> - Tester (Subscription Module)</li>
+                        <li><strong>Reg. No. 193</strong> - Tester (Cross-Browser Compatibility)</li>
+                        <li><strong>Reg. No. 212</strong> - User Interface Designer</li>
+                        <li><strong>Reg. No. 215</strong> - Security Analyst (Input Validation)</li>
+                        <li><strong>Reg. No. 196</strong> - Accessibility Auditor</li>
+                    </ul>
+                </div>
+
+                <!-- Research & Documentation (The bulk of the group) -->
+                <div class="col-md-4">
+                    <h5 class="team-category-title">Research & Documentation</h5>
+                    <ul class="team-list">
+                        <li><strong>Reg. No. 209</strong> - Lead Technical Writer</li>
+                        <li><strong>Reg. No. 222</strong> - Research Lead (News APIs)</li>
+                        <li><strong>Reg. No. 203</strong> - Documentation (System Design)</li>
+                        <li><strong>Reg. No. 216</strong> - Documentation (Methodology)</li>
+                        <li><strong>Reg. No. 211</strong> - Documentation (Future Scope)</li>
+                        <li><strong>Reg. No. 194, 197, 198</strong> - Content Strategy</li>
+                        <li><strong>Reg. No. 199, 200, 204</strong> - Market Research</li>
+                        <li><strong>Reg. No. 206, 207, 213</strong> - Project Compliance</li>
+                        <li><strong>Reg. No. 214, 217, 220</strong> - Support Team</li>
+                        <li><strong>Reg. No. 221, 223, 225</strong> - Final Report Editors</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUMMARY GENERATOR (Replaces Subscription) -->
+    <div class="container" id="generate">
+        <div class="generator-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h3 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 1rem;">Personalized Briefing</h3>
+                    <p class="mb-5" style="opacity: 0.8;">Select your interests and generate a custom news summary instantly.</p>
+                    
+                    <form action="/generate-summary" method="POST" class="text-start">
+                        <div class="mb-4">
+                            <label class="small fw-bold text-white-50">YOUR NAME (FOR THE REPORT)</label>
+                            <input type="text" name="name" class="form-control form-control-dark py-3" placeholder="e.g. Alex" required>
+                        </div>
+
+                        <label class="d-block small fw-bold mb-3 text-center text-white-50">SELECT TOPICS FOR SUMMARY (MAX 3)</label>
+                        <div class="row justify-content-center g-3 mb-5">
+                            {% for cat in ['Business', 'Technology', 'Sports', 'Science', 'Health', 'Entertainment'] %}
+                            <div class="col-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="categories" value="{{ cat|lower }}" id="chk_{{ cat }}">
+                                    <label class="form-check-label small text-white" for="chk_{{ cat }}">{{ cat }}</label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-premium px-5">Generate My Summary</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="text-center pb-5 text-muted small">
+            &copy; 2025 Group 7 News Platform. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts: Dark Mode & Form Logic -->
+    <script>
+        // --- 1. DARK MODE LOGIC ---
+        const toggleBtn = document.getElementById('themeToggle');
+        const icon = toggleBtn.querySelector('i');
+        const body = document.body;
+
+        // Check local storage or default
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                // Switch to Light
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                // Switch to Dark
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
+
+        // --- 2. FORM CHECKBOX LIMITER ---
+        const checks = document.querySelectorAll('.form-check-input');
+        const max = 3;
+        checks.forEach(check => {
+            check.addEventListener('click', function() {
+                const checkedCount = document.querySelectorAll(".form-check-input:checked").length;
+                if (checkedCount > max) {
+                    this.checked = false;
+                    // Optional: Add a subtle shake or toast here if you wanted to be fancy
+                }
+            });
+        });
+    </script>
+</body>
+</html>
