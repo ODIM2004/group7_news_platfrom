@@ -9,6 +9,7 @@ app.secret_key = "group7_secret_key"
 
 # --- DATABASE CONFIGURATION ---
 # Vercel has a read-only filesystem. We must use /tmp/ for SQLite to work.
+# Note: Data in /tmp/ is temporary and resets when the function goes cold.
 IS_VERCEL = "VERCEL" in os.environ
 DB_PATH = "/tmp/newsletter.db" if IS_VERCEL else "newsletter.db"
 
@@ -27,6 +28,7 @@ def init_db():
     except Exception as e:
         print(f"Database Initialization Error: {e}")
 
+# Initialize database on startup
 init_db()
 
 # --- NEWS FETCHING ENGINE ---
@@ -86,6 +88,8 @@ def generate_summary():
 
     # Log interaction to Database (Software Engineering Requirement)
     try:
+        # Ensure DB exists before writing (especially on serverless cold starts)
+        init_db()
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         prefs_str = ",".join(selected_categories)
@@ -115,7 +119,7 @@ def admin_panel():
         c.execute("SELECT * FROM history ORDER BY id DESC")
         logs = c.fetchall()
         conn.close()
-    except:
+    except Exception:
         logs = []
     
     # Styled System Log for Defense Presentation
@@ -137,17 +141,18 @@ def admin_panel():
                 <td style="padding: 15px;">TIMESTAMP</td>
             </tr>
     """
-    for row in logs:
-        html += f\"\"\"
-        <tr style='border-bottom: 1px solid #f1f5f9;'>
-            <td style="padding: 15px; color: #94a3b8;">#00{row[0]}</td>
-            <td style="padding: 15px; font-weight: 600;">{row[1]}</td>
-            <td style="padding: 15px;"><span style="background: #ecfeff; color: #0891b2; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">{row[2]}</span></td>
-            <td style="padding: 15px; color: #64748b; font-size: 0.9rem;">{row[3]}</td>
-        </tr>\"\"\"
     
     if not logs:
         html += "<tr><td colspan='4' style='padding: 40px; text-align: center; color: #94a3b8;'>No system activity detected yet. (Logs reset on Vercel cold starts)</td></tr>"
+    else:
+        for row in logs:
+            html += f"""
+            <tr style='border-bottom: 1px solid #f1f5f9;'>
+                <td style="padding: 15px; color: #94a3b8;">#00{row[0]}</td>
+                <td style="padding: 15px; font-weight: 600;">{row[1]}</td>
+                <td style="padding: 15px;"><span style="background: #ecfeff; color: #0891b2; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">{row[2]}</span></td>
+                <td style="padding: 15px; color: #64748b; font-size: 0.9rem;">{row[3]}</td>
+            </tr>"""
         
     html += "</table></div>"
     return html
