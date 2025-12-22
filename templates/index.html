@@ -30,6 +30,7 @@
             --newsletter-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             --newsletter-text: #ffffff;
             --team-bg: #f8fafc;          /* Slate 50 */
+            --invert-icon: 0;
         }
 
         [data-theme="dark"] {
@@ -47,6 +48,7 @@
             --newsletter-bg: linear-gradient(135deg, #020617 0%, #1e293b 100%);
             --newsletter-text: #e2e8f0;
             --team-bg: #020617;          /* Slate 950 */
+            --invert-icon: 1;
         }
 
         body {
@@ -122,20 +124,24 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
             padding: 0 20px;
+            width: 100%;
         }
         .hero-title {
             font-family: 'Playfair Display', serif;
-            font-size: 4rem;
+            /* FIXED: Use clamp to prevent mobile overflow on long words like "Entertainment" */
+            font-size: clamp(2.2rem, 10vw, 4rem); 
             font-weight: 700;
             margin-bottom: 1rem;
             color: #ffffff; /* Always white on image */
             text-shadow: 0 10px 30px rgba(0,0,0,0.5);
             animation: fadeUp 1s ease-out;
+            line-height: 1.1;
+            word-wrap: break-word;
         }
         .hero-subtitle {
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
             color: rgba(255,255,255,0.9);
             font-weight: 300;
             letter-spacing: 0.5px;
@@ -248,7 +254,7 @@
             font-weight: 500;
         }
 
-        /* --- GENERATOR SECTION (Replaces Subscription) --- */
+        /* --- GENERATOR SECTION --- */
         .generator-container {
             background: var(--newsletter-bg);
             color: var(--newsletter-text);
@@ -322,7 +328,7 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION DATA -->
     {% set bg_image = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80" %}
     {% set subtitle = "Intelligence for the modern world." %}
     
@@ -397,14 +403,10 @@
             </div>
 
             <div class="row g-5">
-                <!-- Core Development (The "What we worked on" team) -->
                 <div class="col-md-4">
                     <h5 class="team-category-title">Core Engineering & Architecture</h5>
                     <ul class="team-list">
-                        <!-- YOU - The one who built Backend, DB, & Frontend -->
                         <li><strong>Reg. No. 210</strong> - Lead Software Engineer (Project Lead)</li>
-                        
-                        <!-- Support Roles for the code -->
                         <li><strong>Reg. No. 195</strong> - Backend Assistant (API Integration)</li>
                         <li><strong>Reg. No. 224</strong> - Frontend Assistant (UI Implementation)</li>
                         <li><strong>Reg. No. 201</strong> - Database Analyst (SQLite Schema)</li>
@@ -412,7 +414,6 @@
                     </ul>
                 </div>
 
-                <!-- QA & Design (The ones who tested your code) -->
                 <div class="col-md-4">
                     <h5 class="team-category-title">Quality Assurance & Design</h5>
                     <ul class="team-list">
@@ -426,7 +427,6 @@
                     </ul>
                 </div>
 
-                <!-- Research & Documentation (The bulk of the group) -->
                 <div class="col-md-4">
                     <h5 class="team-category-title">Research & Documentation</h5>
                     <ul class="team-list">
@@ -446,7 +446,7 @@
         </div>
     </div>
 
-    <!-- SUMMARY GENERATOR (Replaces Subscription) -->
+    <!-- SUMMARY GENERATOR -->
     <div class="container" id="generate">
         <div class="generator-container">
             <div class="row justify-content-center">
@@ -488,14 +488,12 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Scripts: Dark Mode & Form Logic -->
     <script>
         // --- 1. DARK MODE LOGIC ---
         const toggleBtn = document.getElementById('themeToggle');
         const icon = toggleBtn.querySelector('i');
         const body = document.body;
 
-        // Check local storage or default
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme === 'dark') {
             body.setAttribute('data-theme', 'dark');
@@ -505,13 +503,11 @@
 
         toggleBtn.addEventListener('click', () => {
             if (body.getAttribute('data-theme') === 'dark') {
-                // Switch to Light
                 body.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
             } else {
-                // Switch to Dark
                 body.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
                 icon.classList.remove('fa-moon');
@@ -527,7 +523,6 @@
                 const checkedCount = document.querySelectorAll(".form-check-input:checked").length;
                 if (checkedCount > max) {
                     this.checked = false;
-                    // Optional: Add a subtle shake or toast here if you wanted to be fancy
                 }
             });
         });
