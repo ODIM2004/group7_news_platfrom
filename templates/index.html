@@ -130,8 +130,8 @@
         }
         .hero-title {
             font-family: 'Playfair Display', serif;
-            /* FIXED: Use clamp to prevent mobile overflow on long words like "Entertainment" */
-            font-size: clamp(2.2rem, 10vw, 4rem); 
+            /* IMPROVED: Slightly smaller min value (1.8rem) and overflow-wrap for total mobile safety */
+            font-size: clamp(1.8rem, 8vw, 4rem); 
             font-weight: 700;
             margin-bottom: 1rem;
             color: #ffffff; /* Always white on image */
@@ -139,6 +139,7 @@
             animation: fadeUp 1s ease-out;
             line-height: 1.1;
             word-wrap: break-word;
+            overflow-wrap: anywhere;
         }
         .hero-subtitle {
             font-size: clamp(0.9rem, 3vw, 1.1rem);
@@ -336,7 +337,7 @@
         {% set bg_image = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2070&q=80" %}
         {% set subtitle = "Global markets and economic shifts." %}
     {% elif "Technology" in current_category %}
-        {% set bg_image = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2070&q=80" %}
+        {% set bg_image = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2070&get=80" %}
         {% set subtitle = "Innovation engineering the future." %}
     {% elif "Sports" in current_category %}
         {% set bg_image = "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=2070&q=80" %}
