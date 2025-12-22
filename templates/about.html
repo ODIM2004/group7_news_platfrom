@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Documentation | Group 7</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --accent-color: #0891b2;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #020617;
+            --text-color: #f1f5f9;
+            --accent-color: #22d3ee;
+            --border-color: #1e293b;
+            --card-bg: #0f172a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .doc-container { max-width: 900px; margin: 100px auto; padding: 0 20px; }
+        
+        .doc-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .point-number {
+            font-weight: 900;
+            color: var(--accent-color);
+            margin-right: 10px;
+            opacity: 0.5;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+        h1 { font-size: 3rem; margin-bottom: 40px; text-align: center; }
+        
+        .back-btn {
+            position: fixed; top: 30px; left: 30px;
+            padding: 10px 20px; border-radius: 50px;
+            background: var(--accent-color); color: white;
+            text-decoration: none; font-weight: 600; z-index: 1000;
+        }
+
+        .tech-badge {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 5px 15px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 600; margin-right: 5px; margin-bottom: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="back-btn"><i class="fas fa-arrow-left me-2"></i> Back to Platform</a>
+
+    <div class="doc-container">
+        <h1>Project Technical Specifications</h1>
+
+        <!-- 1. Introduction -->
+        <div class="doc-section">
+            <h3><span class="point-number">01</span> Introduction</h3>
+            <p>The <strong>Public News Platform</strong> is a centralized intelligence hub designed to solve the problem of information overload. Its primary objective is to provide professional-grade, real-time news synthesis through a streamlined, personalized interface. Importance lies in its ability to filter global noise into actionable data for decision-makers.</p>
+        </div>
+
+        <!-- 2. Team Composition -->
+        <div class="doc-section">
+            <h3><span class="point-number">02</span> Team Composition & Roles</h3>
+            <p>Our team consists of 33 members (Registration IDs 193-225). Under the leadership of <strong>Member 210 (Project Lead)</strong>, we utilized a hierarchical structure divided into Engineering, UX/Frontend, Quality Assurance, and Research clusters.</p>
+        </div>
+
+        <!-- 4. Methodology -->
+        <div class="doc-section">
+            <h3><span class="point-number">04</span> Methodology Used</h3>
+            <p>We adopted the <strong>Agile Scrum</strong> methodology. This allowed for iterative development cycles, regular code reviews by the Lead Engineer, and rapid prototyping of the mobile-responsive interface based on peer feedback.</p>
+        </div>
+
+        <!-- 5. Software Engineering Domain -->
+        <div class="doc-section">
+            <h3><span class="point-number">05</span> Software Engineering Domain</h3>
+            <p>The project follows <strong>Modular System Architecture</strong>. Key principles applied include <em>Separation of Concerns</em> (decoupling logic from presentation), <em>Fault Tolerance</em> (API fallback mirrors), and <em>Input Sanitization</em> for secure data processing.</p>
+        </div>
+
+        <!-- 6. Tech Stack -->
+        <div class="doc-section">
+            <h3><span class="point-number">06</span> Technologies & Tools</h3>
+            <div>
+                <span class="tech-badge">Python 3.x</span>
+                <span class="tech-badge">Flask (Framework)</span>
+                <span class="tech-badge">SQLite3 (DBMS)</span>
+                <span class="tech-badge">Tailwind CSS</span>
+                <span class="tech-badge">NewsAPI Integration</span>
+                <span class="tech-badge">GitHub (Version Control)</span>
+                <span class="tech-badge">Vercel (Cloud Deployment)</span>
+            </div>
+        </div>
+
+        <!-- 7. DBMS -->
+        <div class="doc-section">
+            <h3><span class="point-number">07</span> Database Management System</h3>
+            <p>We selected <strong>SQLite3</strong> for its zero-configuration, serverless nature, which is ideal for high-speed read/write operations in a news environment. The relational schema tracks executive briefing history, ensuring data persistence and session auditability.</p>
+        </div>
+
+        <!-- 8. System Design -->
+        <div class="doc-section">
+            <h3><span class="point-number">08</span> Implementation Overview</h3>
+            <p>The system utilizes a <strong>Request-Response Architecture</strong>. When a user requests a briefing, the Flask backend asynchronously fetches data from global news servers, processes the JSON payloads, and renders a dynamic, print-ready executive summary via Jinja2 templating.</p>
+        </div>
+
+        <!-- 9. Challenges -->
+        <div class="doc-section">
+            <h3><span class="point-number">09</span> Challenges & Solutions</h3>
+            <p><strong>Challenge:</strong> Vercel’s read-only filesystem crashed the database.<br>
+               <strong>Solution:</strong> We implemented a dynamic pathing system that utilizes the <code>/tmp/</code> directory for the SQLite instance, ensuring full write access in a serverless environment.</p>
+        </div>
+
+        <!-- 10. Results -->
+        <div class="doc-section">
+            <h3><span class="point-number">10</span> Results & Future Directions</h3>
+            <p>The platform is fully live and successfully handling concurrent news requests. Future iterations will include <strong>Natural Language Processing (NLP)</strong> for automated article sentiment analysis and AI-driven summary generation.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Synchronize theme with home page
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+        }
+    </script>
+</body>
+</html>
