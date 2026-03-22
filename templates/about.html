@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Documentation | Group 7</title>
+    <title>Project Documentation | Deodims.7</title>
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -85,26 +85,21 @@
             <h3><span class="point-number">01</span> Introduction</h3>
             <p>The <strong>Public News Platform</strong> is a centralized intelligence hub designed to solve the problem of information overload. Its primary objective is to provide professional-grade, real-time news synthesis through a streamlined, personalized interface. Importance lies in its ability to filter global noise into actionable data for decision-makers.</p>
         </div>
+
 
-        <!-- 2. Team Composition -->
-        <div class="doc-section">
-            <h3><span class="point-number">02</span> Team Composition & Roles</h3>
-            <p>Our team consists of 33 members (Registration IDs 193-225). Under the leadership of <strong>Member 210 (Project Lead)</strong>, we utilized a hierarchical structure divided into Engineering, UX/Frontend, Quality Assurance, and Research clusters.</p>
-        </div>
-
-        <!-- 4. Methodology -->
+        <!-- 2. Methodology -->
         <div class="doc-section">
             <h3><span class="point-number">04</span> Methodology Used</h3>
             <p>We adopted the <strong>Agile Scrum</strong> methodology. This allowed for iterative development cycles, regular code reviews by the Lead Engineer, and rapid prototyping of the mobile-responsive interface based on peer feedback.</p>
         </div>
 
-        <!-- 5. Software Engineering Domain -->
+        <!-- 3. Software Engineering Domain -->
         <div class="doc-section">
             <h3><span class="point-number">05</span> Software Engineering Domain</h3>
             <p>The project follows <strong>Modular System Architecture</strong>. Key principles applied include <em>Separation of Concerns</em> (decoupling logic from presentation), <em>Fault Tolerance</em> (API fallback mirrors), and <em>Input Sanitization</em> for secure data processing.</p>
         </div>
 
-        <!-- 6. Tech Stack -->
+        <!-- 4. Tech Stack -->
         <div class="doc-section">
             <h3><span class="point-number">06</span> Technologies & Tools</h3>
             <div>
@@ -118,26 +113,26 @@
             </div>
         </div>
 
-        <!-- 7. DBMS -->
+        <!-- 5. DBMS -->
         <div class="doc-section">
             <h3><span class="point-number">07</span> Database Management System</h3>
             <p>We selected <strong>SQLite3</strong> for its zero-configuration, serverless nature, which is ideal for high-speed read/write operations in a news environment. The relational schema tracks executive briefing history, ensuring data persistence and session auditability.</p>
         </div>
 
-        <!-- 8. System Design -->
+        <!-- 6. System Design -->
         <div class="doc-section">
             <h3><span class="point-number">08</span> Implementation Overview</h3>
             <p>The system utilizes a <strong>Request-Response Architecture</strong>. When a user requests a briefing, the Flask backend asynchronously fetches data from global news servers, processes the JSON payloads, and renders a dynamic, print-ready executive summary via Jinja2 templating.</p>
         </div>
 
-        <!-- 9. Challenges -->
+        <!-- 7. Challenges -->
         <div class="doc-section">
             <h3><span class="point-number">09</span> Challenges & Solutions</h3>
             <p><strong>Challenge:</strong> Vercel’s read-only filesystem crashed the database.<br>
                <strong>Solution:</strong> We implemented a dynamic pathing system that utilizes the <code>/tmp/</code> directory for the SQLite instance, ensuring full write access in a serverless environment.</p>
         </div>
 
-        <!-- 10. Results -->
+        <!-- 8. Results -->
         <div class="doc-section">
             <h3><span class="point-number">10</span> Results & Future Directions</h3>
             <p>The platform is fully live and successfully handling concurrent news requests. Future iterations will include <strong>Natural Language Processing (NLP)</strong> for automated article sentiment analysis and AI-driven summary generation.</p>
