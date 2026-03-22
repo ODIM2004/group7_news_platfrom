@@ -89,19 +89,19 @@
 
         <!-- 2. Methodology -->
         <div class="doc-section">
-            <h3><span class="point-number">04</span> Methodology Used</h3>
+            <h3><span class="point-number">02</span> Methodology Used</h3>
             <p>We adopted the <strong>Agile Scrum</strong> methodology. This allowed for iterative development cycles, regular code reviews by the Lead Engineer, and rapid prototyping of the mobile-responsive interface based on peer feedback.</p>
         </div>
 
         <!-- 3. Software Engineering Domain -->
         <div class="doc-section">
-            <h3><span class="point-number">05</span> Software Engineering Domain</h3>
+            <h3><span class="point-number">03</span> Software Engineering Domain</h3>
             <p>The project follows <strong>Modular System Architecture</strong>. Key principles applied include <em>Separation of Concerns</em> (decoupling logic from presentation), <em>Fault Tolerance</em> (API fallback mirrors), and <em>Input Sanitization</em> for secure data processing.</p>
         </div>
 
         <!-- 4. Tech Stack -->
         <div class="doc-section">
-            <h3><span class="point-number">06</span> Technologies & Tools</h3>
+            <h3><span class="point-number">04</span> Technologies & Tools</h3>
             <div>
                 <span class="tech-badge">Python 3.x</span>
                 <span class="tech-badge">Flask (Framework)</span>
@@ -115,26 +115,26 @@
 
         <!-- 5. DBMS -->
         <div class="doc-section">
-            <h3><span class="point-number">07</span> Database Management System</h3>
+            <h3><span class="point-number">05</span> Database Management System</h3>
             <p>We selected <strong>SQLite3</strong> for its zero-configuration, serverless nature, which is ideal for high-speed read/write operations in a news environment. The relational schema tracks executive briefing history, ensuring data persistence and session auditability.</p>
         </div>
 
         <!-- 6. System Design -->
         <div class="doc-section">
-            <h3><span class="point-number">08</span> Implementation Overview</h3>
+            <h3><span class="point-number">06</span> Implementation Overview</h3>
             <p>The system utilizes a <strong>Request-Response Architecture</strong>. When a user requests a briefing, the Flask backend asynchronously fetches data from global news servers, processes the JSON payloads, and renders a dynamic, print-ready executive summary via Jinja2 templating.</p>
         </div>
 
         <!-- 7. Challenges -->
         <div class="doc-section">
-            <h3><span class="point-number">09</span> Challenges & Solutions</h3>
+            <h3><span class="point-number">07</span> Challenges & Solutions</h3>
             <p><strong>Challenge:</strong> Vercel’s read-only filesystem crashed the database.<br>
                <strong>Solution:</strong> We implemented a dynamic pathing system that utilizes the <code>/tmp/</code> directory for the SQLite instance, ensuring full write access in a serverless environment.</p>
         </div>
 
         <!-- 8. Results -->
         <div class="doc-section">
-            <h3><span class="point-number">10</span> Results & Future Directions</h3>
+            <h3><span class="point-number">08</span> Results & Future Directions</h3>
             <p>The platform is fully live and successfully handling concurrent news requests. Future iterations will include <strong>Natural Language Processing (NLP)</strong> for automated article sentiment analysis and AI-driven summary generation.</p>
         </div>
 
